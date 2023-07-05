@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../constants/routes.dart';
+import '../product_view/product_view.dart';
 import '../user_view/user_view.dart';
 
 class HomePage extends StatefulWidget {
@@ -49,9 +50,9 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const CircleAvatar(
                   radius: 30,
-                  backgroundImage: NetworkImage(
-                    "https://scontent.fcai21-3.fna.fbcdn.net/v/t1.6435-9/118882328_10218274556368309_680680680433877888_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Z2Z3Z2Z2Z2MAX9Z2Z2Z&_nc_ht=scontent.fcai21-3.fna&oh=3b6b5b6b5b6b5b6b5b6b5b6b5b6b5b6b&oe=60D0F0C5",
-                  ),
+                  // backgroundImage: NetworkImage(
+                  //   "https://scontent.fcai21-3.fna.fbcdn.net/v/t1.6435-9/118882328_10218274556368309_680680680433877888_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=Z2Z3Z2Z2Z2MAX9Z2Z2Z&_nc_ht=scontent.fcai21-3.fna&oh=3b6b5b6b5b6b5b6b5b6b5b6b5b6b5b6b&oe=60D0F0C5",
+                  // ),
                 ),
                 const Text(
                   "Ahmed Mohamed",
@@ -82,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                         title: appProvider.userList.length.toString()),
                     SingleDashItem(
                       subtitle: "Categories",
-                      title: appProvider.categoriesList.length.toString(),
+                      title: appProvider.getCategoriesList.length.toString(),
                       onTap: () {
                         Routes.instance
                             .push(widget: const CategoriesScreen(), context: context);
@@ -90,8 +91,11 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SingleDashItem(
                       subtitle: "Products",
-                      title: "5",
-                      onTap: () {},
+                      title: appProvider.getProductsList.length.toString(),
+                      onTap: () {
+                        Routes.instance
+                            .push(widget: const ProductView(), context: context);
+                      },
                     ),
                     SingleDashItem(
                       subtitle: "Earning",

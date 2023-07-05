@@ -1,5 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
+import 'package:admin_panel/firebase_helper/firebase_storage_helper/firebase_storage_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -55,10 +58,46 @@ class FirebaseFirestoreHelper {
     }
   }
 
-  Future<List<ProductModel>> getBestProducts() async {
+  Future<String>deleteCategory(String id)async{
+    try{
+      _firebaseFirestore.collection("categories").doc(id).delete();
+      return "Category Deleted Successfully";
+    }catch(e){
+      showMessage(e.toString());
+      return "Error";
+    }
+  }
+
+  Future<void> updateSingleCategory(CategoryModel categoryModel)async{
+    try{
+      _firebaseFirestore.collection("categories")
+          .doc(categoryModel.id)
+          .update(categoryModel.toJson());
+      showMessage("Category Updated Successfully");
+    }catch(e){
+      showMessage(e.toString());
+    }
+  }
+
+  Future<CategoryModel> addSingleCategory(File image, String name)async{
+
+      CollectionReference collectionReference = _firebaseFirestore.collection("categories");
+      String imageUrl = await FirebaseStorageHelper.instance.uploadUserImage(image);
+
+       CategoryModel categoryModel1 = CategoryModel(
+         id: collectionReference.id,
+         name: name,
+         image: imageUrl,
+       );
+     await collectionReference.add(categoryModel1.toJson());
+      showMessage("Category add Successfully");
+      return categoryModel1;
+  }
+
+  Future<List<ProductModel>> getProducts() async {
     try {
       QuerySnapshot<Map<String, dynamic>> querySnapshot =
-          await _firebaseFirestore.collectionGroup("products").get();
+      await _firebaseFirestore.collectionGroup("products").get();
 
       List<ProductModel> productModelList = querySnapshot.docs
           .map((e) => ProductModel.fromJson(e.data()))
@@ -70,26 +109,6 @@ class FirebaseFirestoreHelper {
       return [];
     }
   }
-
-  Future<String>deleteCategory(String id)async{
-    try{
-      _firebaseFirestore.collection("categories").doc(id).delete();
-      return "Category Deleted Successfully";
-    }catch(e){
-      showMessage(e.toString());
-      return "Error";
-    }
-  }
-
-  Future<void> updateCategory(CategoryModel categoryModel)async{
-    try{
-      _firebaseFirestore.collection("categories").doc(categoryModel.id).update(categoryModel.toJson());
-      showMessage("Category Updated Successfully");
-    }catch(e){
-      showMessage(e.toString());
-    }
-  }
-
   // Future<List<ProductModel>> getBestProducts() async {
   //   try {
   //     QuerySnapshot<Map<String, dynamic>> querySnapshot =

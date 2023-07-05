@@ -9,17 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class EditCategory extends StatefulWidget {
-  final CategoryModel category;
-  final int index;
-
-  const EditCategory({super.key, required this.category, required this.index});
+class AddCategory extends StatefulWidget {
+  const AddCategory({super.key});
 
   @override
-  _EditCategoryState createState() => _EditCategoryState();
+  _AddCategoryState createState() => _AddCategoryState();
 }
 
-class _EditCategoryState extends State<EditCategory> {
+class _AddCategoryState extends State<AddCategory> {
   File? image;
 
   void takePicture() async {
@@ -65,8 +62,8 @@ class _EditCategoryState extends State<EditCategory> {
           const SizedBox(height: 12),
           TextFormField(
             controller: name,
-            decoration: InputDecoration(
-              hintText: widget.category.name,
+            decoration: const InputDecoration(
+              hintText: "Category Name",
             ),
           ),
           const SizedBox(height: 24),
@@ -74,24 +71,12 @@ class _EditCategoryState extends State<EditCategory> {
               onPressed: () async {
                 if (image == null && name.text.isEmpty) {
                   Navigator.of(context).pop();
-                } else if (image != null) {
-                  String imageUrl = await FirebaseStorageHelper.instance
-                      .uploadUserImage(image!);
-                  CategoryModel categoryModel = widget.category.copyWith(
-                      name:
-                          name.text.isEmpty ? widget.category.name : name.text,
-                      image: imageUrl);
-                  appProvider.updateCategoryList(widget.index, categoryModel);
-                  showMessage('Category Updated Successfully');
-                }else{
-                  CategoryModel categoryModel = widget.category.copyWith(
-                      name:
-                      name.text.isEmpty ? widget.category.name : name.text,);
-                  appProvider.updateCategoryList(widget.index, categoryModel);
-                  showMessage('Category Updated Successfully');
+                } else if (image != null && name.text.isNotEmpty) {
+                  appProvider.addCategoryList(image!, name.text);
+                  showMessage("Category Added Successfully");
                 }
               },
-              child: const Text('Update Category'))
+              child: const Text('Add Category'))
         ],
       ),
     );

@@ -13,6 +13,7 @@ import '../models/user_model/user_model.dart';
 class AppProvider with ChangeNotifier {
   List<UserModel> _userList = [];
   List<CategoryModel> _categoriesList = [];
+  List<ProductModel> _productList = [];
 
   Future<void> getUserListFun() async {
     _userList = await FirebaseFirestoreHelper.instance.getUserList();
@@ -53,13 +54,35 @@ class AppProvider with ChangeNotifier {
     }
   }
 
-  void updateCategory(int index,CategoryModel categoryModel) async {
-    FirebaseFirestoreHelper.instance.updateCategory(categoryModel);
+  void updateCategoryList(int index,CategoryModel categoryModel) async {
+    FirebaseFirestoreHelper.instance.updateSingleCategory(categoryModel);
     _categoriesList[index] = categoryModel;
     notifyListeners();
   }
 
-  List<CategoryModel> get categoriesList => _categoriesList;
+  void addCategoryList(File image,String name) async {
+    CategoryModel c = await
+    FirebaseFirestoreHelper.instance.addSingleCategory(image, name);
+    _categoriesList.add(c);
+    notifyListeners();
+  }
+
+
+
+  Future<void> getProduct() async {
+    _productList = await FirebaseFirestoreHelper.instance.getProducts();
+    notifyListeners();
+  }
+  void addProductsList(File image,String name) async {
+    CategoryModel c = await
+    FirebaseFirestoreHelper.instance.addSingleCategory(image, name);
+    _categoriesList.add(c);
+    notifyListeners();
+  }
+
+
+  List<CategoryModel> get getCategoriesList => _categoriesList;
+  List<ProductModel> get getProductsList => _productList;
 
   List<UserModel> get userList => _userList;
 
@@ -68,5 +91,6 @@ class AppProvider with ChangeNotifier {
   Future<void> callBackFun() async {
     await getUserListFun();
     await getCategoriesFun();
+    await getProduct();
   }
 }
