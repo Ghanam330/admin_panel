@@ -13,10 +13,11 @@ class ProductModel {
         required this.price,
         required this.description,
         required this.isFavourite,
+        required this.categoryId,
         this.qty});
 
   String image;
-  String id;
+  String id, categoryId;
   bool isFavourite;
   String name;
   double price;
@@ -29,6 +30,7 @@ class ProductModel {
     name: json["name"],
     description: json["description"],
     image: json["image"],
+    categoryId: json["categoryId"],
     isFavourite: false,
     qty: json["qty"],
     price: double.parse(json["price"].toString()),
@@ -38,21 +40,11 @@ class ProductModel {
     "id": id,
     "name": name,
     "image": image,
+    "categoryId": categoryId,
     "description": description,
     "isFavourite": isFavourite,
     "price": price,
     "qty": qty
   };
-  ProductModel copyWith({
-    int? qty,
-  }) =>
-      ProductModel(
-        id: id,
-        name: name,
-        description: description,
-        image: image,
-        isFavourite: isFavourite,
-        qty: qty ?? this.qty,
-        price: price,
-      );
+
 }

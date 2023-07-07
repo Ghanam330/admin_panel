@@ -81,12 +81,26 @@ class AppProvider with ChangeNotifier {
   }
 
 
+  Future<void> deleteProduct(ProductModel productModel) async {
+    String message =
+    await FirebaseFirestoreHelper.instance.deleteProduct(productModel.categoryId,productModel.id);
+    if (message == "Deleted Successfully") {
+      _productList.remove(productModel);
+      showMessage(message);
+    } else {
+      notifyListeners();
+      showMessage(message);
+    }
+  }
+
+
   List<CategoryModel> get getCategoriesList => _categoriesList;
   List<ProductModel> get getProductsList => _productList;
 
   List<UserModel> get userList => _userList;
 
   bool get getIsDeletingLoading => isDeleteLoading;
+  bool get getIsDeletingCategoryLoading => isDeleteCategoryLoading;
 
   Future<void> callBackFun() async {
     await getUserListFun();
