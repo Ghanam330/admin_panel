@@ -4,12 +4,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../constants/routes.dart';
 import '../../../models/product_model/product_model.dart';
 import '../../../provider/app_provider.dart';
+import '../edit_product/edit_product.dart';
 
 class SingleProductView extends StatefulWidget {
-  SingleProductView({super.key,required this.singleProduct});
+  SingleProductView({super.key,required this.singleProduct,required this.index});
   final ProductModel singleProduct;
+  final int index;
 
   @override
   State<SingleProductView> createState() => _SingleProductViewState();
@@ -80,11 +83,11 @@ class _SingleProductViewState extends State<SingleProductView> {
                   const SizedBox(width: 8),
                   GestureDetector(
                     onTap: () {
-                      // Routes.instance.push(
-                      //     widget: EditCategory(
-                      //         category: categoryModel,
-                      //         index: index),
-                      //     context: context);
+                      Routes.instance.push(
+                          widget: EditProduct(
+                              productModel: widget.singleProduct,
+                              index: widget.index),
+                          context: context);
                     },
                     child: const Icon(
                       Icons.edit,

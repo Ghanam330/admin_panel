@@ -1,9 +1,10 @@
 import 'package:admin_panel/screens/product_view/widget/single_product_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import '../../constants/routes.dart';
 import '../../models/product_model/product_model.dart';
 import '../../provider/app_provider.dart';
+import 'add_product/add_product.dart';
 
 class ProductView extends StatelessWidget {
   const ProductView({super.key});
@@ -13,6 +14,17 @@ class ProductView extends StatelessWidget {
     AppProvider appProvider = Provider.of<AppProvider>(context);
     return Scaffold(
       appBar: AppBar(
+          actions: [
+            IconButton(
+              onPressed: () {
+                Routes.instance.push(
+                    widget: const AddProduct(),
+                    context: context);
+              },
+              icon: const Icon(Icons.add),
+            ),
+          ],
+        centerTitle: true,
         title: const Text('Product View'),
       ),
       body: SingleChildScrollView(
@@ -32,6 +44,7 @@ class ProductView extends StatelessWidget {
                 ProductModel singleProduct = appProvider.getProductsList[index];
                 return SingleProductView(
                   singleProduct: singleProduct,
+                  index: index,
                 );
               }),
         ),

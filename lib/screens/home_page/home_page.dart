@@ -99,12 +99,12 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SingleDashItem(
                       subtitle: "Earning",
-                      title: "5",
+                      title:"${appProvider.getTotalEarning}",
                       onTap: () {},
                     ),
                     SingleDashItem(
                       subtitle: "Pending Orders",
-                      title: "5",
+                      title: appProvider.getCompletedOrderList.length.toString(),
                       onTap: () {},
                     ),
                     SingleDashItem(
