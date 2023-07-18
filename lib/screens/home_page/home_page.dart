@@ -1,6 +1,7 @@
 import 'package:admin_panel/provider/app_provider.dart';
 import 'package:admin_panel/screens/categories_view/categories_view.dart';
 import 'package:admin_panel/screens/home_page/widget/single_dash_item.dart';
+import 'package:admin_panel/screens/order_list/ordder_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -85,32 +86,38 @@ class _HomePageState extends State<HomePage> {
                       subtitle: "Categories",
                       title: appProvider.getCategoriesList.length.toString(),
                       onTap: () {
-                        Routes.instance
-                            .push(widget: const CategoriesScreen(), context: context);
+                        Routes.instance.push(
+                            widget: const CategoriesScreen(), context: context);
                       },
                     ),
                     SingleDashItem(
                       subtitle: "Products",
                       title: appProvider.getProductsList.length.toString(),
                       onTap: () {
-                        Routes.instance
-                            .push(widget: const ProductView(), context: context);
+                        Routes.instance.push(
+                            widget: const ProductView(), context: context);
                       },
                     ),
                     SingleDashItem(
                       subtitle: "Earning",
-                      title:"${appProvider.getTotalEarning}",
+                      title: "${appProvider.getTotalEarning}",
                       onTap: () {},
                     ),
                     SingleDashItem(
                       subtitle: "Pending Orders",
-                      title: appProvider.getCompletedOrderList.length.toString(),
+                      title: '11',
                       onTap: () {},
                     ),
                     SingleDashItem(
                       subtitle: "Completed Orders",
-                      title: "5",
-                      onTap: () {},
+                      title:
+                          appProvider.getCompletedOrderList.length.toString(),
+                      onTap: () {
+                        Routes.instance.push(
+                            widget: OrderList(
+                                orderList: appProvider.getCompletedOrderList),
+                            context: context);
+                      },
                     ),
                     SingleDashItem(
                       subtitle: "Cancel Order",
