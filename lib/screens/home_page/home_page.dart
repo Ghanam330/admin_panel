@@ -109,25 +109,33 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {},
                     ),
                     SingleDashItem(
+                      subtitle: "Delivered Orders",
+                      title: "5",
+                      onTap: () {},
+                    ),
+                    SingleDashItem(
+                      subtitle: "Cancel Order",
+                      title:
+                          appProvider.getCancelledOrderList.length.toString(),
+                      onTap: () {
+                        Routes.instance.push(
+                            widget: OrderList(
+                                orderList: appProvider.getCancelledOrderList,
+                                title: "Cancelled"),
+                            context: context);
+                      },
+                    ),
+                    SingleDashItem(
                       subtitle: "Completed Orders",
                       title:
                           appProvider.getCompletedOrderList.length.toString(),
                       onTap: () {
                         Routes.instance.push(
                             widget: OrderList(
+                                title: "Completed",
                                 orderList: appProvider.getCompletedOrderList),
                             context: context);
                       },
-                    ),
-                    SingleDashItem(
-                      subtitle: "Cancel Order",
-                      title: "5",
-                      onTap: () {},
-                    ),
-                    SingleDashItem(
-                      subtitle: "Delivered Orders",
-                      title: "5",
-                      onTap: () {},
                     ),
                   ],
                 ),

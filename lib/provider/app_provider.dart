@@ -15,7 +15,9 @@ class AppProvider with ChangeNotifier {
   List<UserModel> _userList = [];
   List<CategoryModel> _categoriesList = [];
   List<ProductModel> _productList = [];
-  List<OrderModel> _completeorderList = [];
+  List<OrderModel> _completeOrderList = [];
+  List<OrderModel> _pendingOrderList = [];
+  List<OrderModel> _cancelledOrderList = [];
   double _totalEarning = 0.0;
 
   Future<void> getUserListFun() async {
@@ -23,12 +25,18 @@ class AppProvider with ChangeNotifier {
   }
 
   Future<void>getCompletedOrder() async {
-    _completeorderList = await FirebaseFirestoreHelper.instance.getCompleteOrder();
-    for (var element in _completeorderList) {
+    _completeOrderList = await FirebaseFirestoreHelper.instance.getCompleteOrder();
+    for (var element in _completeOrderList) {
       _totalEarning += element.totalPrice;
     }
     notifyListeners();
   }
+
+  Future<void>getCancelledOrder() async {
+    _cancelledOrderList = await FirebaseFirestoreHelper.instance.getCancelOrder();
+    notifyListeners();
+  }
+
   Future<void> getCategoriesFun() async {
     _categoriesList = await FirebaseFirestoreHelper.instance.getCategories();
   }
@@ -124,7 +132,9 @@ class AppProvider with ChangeNotifier {
   List<CategoryModel> get getCategoriesList => _categoriesList;
 
   List<ProductModel> get getProductsList => _productList;
-  List<OrderModel> get getCompletedOrderList =>_completeorderList;
+  List<OrderModel> get getCompletedOrderList =>_completeOrderList;
+  List<OrderModel> get getPendingOrderList =>_pendingOrderList;
+  List<OrderModel> get getCancelledOrderList =>_cancelledOrderList;
   List<UserModel> get userList => _userList;
 double get getTotalEarning => _totalEarning;
   bool get getIsDeletingLoading => isDeleteLoading;
@@ -136,5 +146,6 @@ double get getTotalEarning => _totalEarning;
     await getCategoriesFun();
     await getProduct();
     await getCompletedOrder();
+    await getCancelledOrder();
   }
 }

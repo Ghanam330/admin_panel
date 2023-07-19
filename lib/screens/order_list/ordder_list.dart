@@ -5,15 +5,15 @@ import '../../models/order_model/order_model.dart';
 
 class OrderList extends StatelessWidget {
   List<OrderModel> orderList;
-
-  OrderList({super.key, required this.orderList});
+String? title;
+  OrderList({super.key, required this.orderList, this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
-          title: const Text('Completed Order List'),
+          title:  Text("$title Order List"),
         ),
         body: ListView.builder(
           shrinkWrap: true,

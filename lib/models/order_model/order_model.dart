@@ -8,11 +8,14 @@ class OrderModel {
     required this.payment,
     required this.products,
     required this.status,
+    required this.userPhone,
+    required this.userEmail,
   });
 
   String payment;
   String status;
-
+  String? userPhone;
+  String? userEmail;
   List<ProductModel> products;
   double totalPrice;
   String orderId;
@@ -21,6 +24,8 @@ class OrderModel {
     List<dynamic> productMap = json["products"];
     return OrderModel(
         orderId: json["orderId"],
+        userPhone: json["userPhone"],
+        userEmail: json["userEmail"],
         products: productMap.map((e) => ProductModel.fromJson(e)).toList(),
         totalPrice: json["totalPrice"],
         status: json["status"],

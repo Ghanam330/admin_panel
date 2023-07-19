@@ -169,6 +169,13 @@ class FirebaseFirestoreHelper {
       return completedOrderList;
   }
 
+  Future<List<OrderModel>> getCancelOrder() async {
+    QuerySnapshot<Map<String, dynamic>> cancelSnapshot =
+    await _firebaseFirestore.collection("orders").where("status",isEqualTo:"Cancel" ).get();
+    List<OrderModel> cancelOrderList =
+    cancelSnapshot.docs.map((e) => OrderModel.fromJson(e.data())).toList();
+    return cancelOrderList;
+  }
 // Future<List<ProductModel>> getBestProducts() async {
 //   try {
 //     QuerySnapshot<Map<String, dynamic>> querySnapshot =

@@ -44,12 +44,27 @@ class SingleOrderWidget extends StatelessWidget {
                   const SizedBox(
                     height: 12.0,
                   ),
+                  Text(
+                    "Phone User: ${orderModel.userPhone.toString()}",
+                    style: const TextStyle(
+                      fontSize: 12.0,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 12.0,
+                  ),
                   orderModel.products.length > 1
                       ? SizedBox.fromSize()
                       : Column(
                     children: [
+                      // Text(
+                      //   "Quanity: ${orderModel.products[0].qty.toString()}",
+                      //   style: const TextStyle(
+                      //     fontSize: 12.0,
+                      //   ),
+                      // ),
                       Text(
-                        "Quanity: ${orderModel.products[0].qty.toString()}",
+                        "Phone User: ${orderModel.userPhone.toString()}",
                         style: const TextStyle(
                           fontSize: 12.0,
                         ),
@@ -117,6 +132,7 @@ class SingleOrderWidget extends StatelessWidget {
                             const SizedBox(
                               height: 12.0,
                             ),
+
                             Column(
                               children: [
                                 Text(
