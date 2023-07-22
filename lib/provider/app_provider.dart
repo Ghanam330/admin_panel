@@ -15,6 +15,7 @@ class AppProvider with ChangeNotifier {
   List<UserModel> _userList = [];
   List<CategoryModel> _categoriesList = [];
   List<ProductModel> _productList = [];
+  List<OrderModel> _deliverOrderList = [];
   List<OrderModel> _completeOrderList = [];
   List<OrderModel> _pendingOrderList = [];
   List<OrderModel> _cancelledOrderList = [];
@@ -24,16 +25,30 @@ class AppProvider with ChangeNotifier {
     _userList = await FirebaseFirestoreHelper.instance.getUserList();
   }
 
-  Future<void>getCompletedOrder() async {
-    _completeOrderList = await FirebaseFirestoreHelper.instance.getCompleteOrder();
+  Future<void> getCompletedOrder() async {
+    _completeOrderList =
+        await FirebaseFirestoreHelper.instance.getCompleteOrder();
     for (var element in _completeOrderList) {
       _totalEarning += element.totalPrice;
     }
     notifyListeners();
   }
 
-  Future<void>getCancelledOrder() async {
-    _cancelledOrderList = await FirebaseFirestoreHelper.instance.getCancelOrder();
+  Future<void> getCancelledOrder() async {
+    _cancelledOrderList =
+        await FirebaseFirestoreHelper.instance.getCancelOrder();
+    notifyListeners();
+  }
+
+  Future<void> getDeliveryOrder() async {
+    _deliverOrderList =
+        await FirebaseFirestoreHelper.instance.getDeliveryOrder();
+    notifyListeners();
+  }
+
+  Future<void> getPendingOrder() async {
+    _pendingOrderList =
+        await FirebaseFirestoreHelper.instance.getPendingOrder();
     notifyListeners();
   }
 
@@ -116,15 +131,10 @@ class AppProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addProductList(
-      File image,
-      String name,
-      String categoryId,
-      String price,
-      String description
-      ) async {
-    ProductModel c =
-        await FirebaseFirestoreHelper.instance.addSingleProduct(image, name, categoryId, price, description);
+  void addProductList(File image, String name, String categoryId, String price,
+      String description) async {
+    ProductModel c = await FirebaseFirestoreHelper.instance
+        .addSingleProduct(image, name, categoryId, price, description);
     _productList.add(c);
     notifyListeners();
   }
@@ -132,11 +142,19 @@ class AppProvider with ChangeNotifier {
   List<CategoryModel> get getCategoriesList => _categoriesList;
 
   List<ProductModel> get getProductsList => _productList;
-  List<OrderModel> get getCompletedOrderList =>_completeOrderList;
-  List<OrderModel> get getPendingOrderList =>_pendingOrderList;
-  List<OrderModel> get getCancelledOrderList =>_cancelledOrderList;
+
+  List<OrderModel> get getCompletedOrderList => _completeOrderList;
+
+  List<OrderModel> get getPendingOrderList => _pendingOrderList;
+
+  List<OrderModel> get getCancelledOrderList => _cancelledOrderList;
+
+  List<OrderModel> get getDeliveredOrderList => _deliverOrderList;
+
   List<UserModel> get userList => _userList;
-double get getTotalEarning => _totalEarning;
+
+  double get getTotalEarning => _totalEarning;
+
   bool get getIsDeletingLoading => isDeleteLoading;
 
   bool get getIsDeletingCategoryLoading => isDeleteCategoryLoading;
@@ -147,5 +165,28 @@ double get getTotalEarning => _totalEarning;
     await getProduct();
     await getCompletedOrder();
     await getCancelledOrder();
+    await getPendingOrder();
+    await getDeliveryOrder();
+  }
+
+  void updatePendingOrder(OrderModel orderModel) {
+    _deliverOrderList.add(orderModel);
+    _pendingOrderList.remove(orderModel);
+    showMessage("Order Delivered Successfully");
+    notifyListeners();
+  }
+
+  void updateCancelPendingOrder(OrderModel orderModel) {
+    _cancelledOrderList.add(orderModel);
+    _pendingOrderList.remove(orderModel);
+    notifyListeners();
+    showMessage("Order Cancel Successfully");
+  }
+
+  void updateCancelDeliveryOrder(OrderModel orderModel) {
+    _cancelledOrderList.add(orderModel);
+    _deliverOrderList.remove(orderModel);
+    notifyListeners();
+    showMessage("Order Cancel Successfully");
   }
 }

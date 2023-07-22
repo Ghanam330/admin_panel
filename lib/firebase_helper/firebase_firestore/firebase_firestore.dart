@@ -176,6 +176,39 @@ class FirebaseFirestoreHelper {
     cancelSnapshot.docs.map((e) => OrderModel.fromJson(e.data())).toList();
     return cancelOrderList;
   }
+
+  Future<List<OrderModel>> getPendingOrder() async {
+    QuerySnapshot<Map<String, dynamic>> pendingOrder =
+    await _firebaseFirestore.collection("orders").where("status",isEqualTo:"Pending" ).get();
+    List<OrderModel> pendingOrderList =
+    pendingOrder.docs.map((e) => OrderModel.fromJson(e.data())).toList();
+    return pendingOrderList;
+  }
+
+  Future<void> updateOrder(OrderModel orderModel,String status) async {
+    await _firebaseFirestore
+        .collection("usersOrders")
+        .doc(orderModel.userId)
+        .collection("orders")
+        .doc(orderModel.orderId)
+        .update({
+      "status": status,
+    });
+    await _firebaseFirestore
+        .collection("orders")
+        .doc(orderModel.orderId)
+        .update({
+      "status": status,
+    });
+  }
+
+  Future<List<OrderModel>> getDeliveryOrder() async {
+    QuerySnapshot<Map<String, dynamic>> deliveryOrder =
+    await _firebaseFirestore.collection("orders").where("status",isEqualTo:"Delivery" ).get();
+    List<OrderModel> deliveryOrderList =
+    deliveryOrder.docs.map((e) => OrderModel.fromJson(e.data())).toList();
+    return deliveryOrderList;
+  }
 // Future<List<ProductModel>> getBestProducts() async {
 //   try {
 //     QuerySnapshot<Map<String, dynamic>> querySnapshot =
