@@ -146,7 +146,6 @@ class _HomePageState extends State<HomePage> {
                                   context: context);
                             },
                           ),
-
                           SingleDashItem(
                             subtitle: "Completed Orders",
                             title: appProvider.getCompletedOrderList.length
