@@ -113,6 +113,7 @@ class _HomePageState extends State<HomePage> {
                             title: "${appProvider.getTotalEarning}",
                             onTap: () {},
                           ),
+
                           SingleDashItem(
                             subtitle: "Pending Orders",
                             title: appProvider.getPendingOrderList.length
