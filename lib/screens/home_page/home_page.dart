@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Routes.instance.push(
                                   widget: OrderList(
-                                      title: "Delivered"),
+                                      title: "Delivery"),
                                   context: context);
                             },
                           ),
@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               Routes.instance.push(
                                   widget: OrderList(
-                                      title: "Cancelled"),
+                                      title: "Cancel"),
                                   context: context);
                             },
                           ),
