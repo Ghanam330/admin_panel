@@ -135,6 +135,7 @@ class _HomePageState extends State<HomePage> {
                                   context: context);
                             },
                           ),
+
                           SingleDashItem(
                             subtitle: "Cancel Order",
                             title: appProvider.getCancelledOrderList.length
